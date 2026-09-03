@@ -4,9 +4,14 @@ public class Main {
 
     public static void main(String[] args) {
 
-        ApiService apiService = new ApiService();
-
-        RenderConfig config = apiService.getRenderConfig();
+        // Temporary config for development to avoid unnecessary API requests
+        RenderConfig config = new RenderConfig(
+                "#BD7D39",
+                "#3F1664",
+                false,
+                "#EB4DDB",
+                258
+        );
 
         System.out.println("Wall color: " + config.getWallCellColor());
         System.out.println("Path color: " + config.getPathColor());
