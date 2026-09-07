@@ -30,6 +30,7 @@ public class Main {
 
             MazeSolver solver = new MazeSolver();
 
+
             List<Point> path = solver.findPath(maze);
 
             if (path.isEmpty()) {
@@ -37,13 +38,41 @@ public class Main {
             } else {
                 System.out.println("Solution found");
                 System.out.println("Path length: " + path.size());
-                System.out.println("Start: " + path.get(0));
-                System.out.println("End: " + path.get(path.size() - 1));
+
+                printMazeWithPath(maze, path);
             }
 
         } catch (IOException e) {
             System.out.println("Failed to load maze image");
             System.out.println(e.getMessage());
+        }
+    }
+
+    private static void printMazeWithPath(
+            boolean[][] maze,
+            List<Point> path) {
+
+        boolean[][] pathCells =
+                new boolean[maze.length][maze[0].length];
+
+        for (Point point : path) {
+            pathCells[point.y][point.x] = true;
+        }
+
+        for (int row = 0; row < maze.length; row++) {
+
+            for (int col = 0; col < maze[row].length; col++) {
+
+                if (pathCells[row][col]) {
+                    System.out.print("*");
+                } else if (maze[row][col]) {
+                    System.out.print(".");
+                } else {
+                    System.out.print("#");
+                }
+            }
+
+            System.out.println();
         }
     }
 }
