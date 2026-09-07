@@ -32,7 +32,7 @@ public class Main {
         );
 
         MazePanel mazePanel =
-                new MazePanel(maze, pathColor);
+                new MazePanel(maze, config);
 
         JButton checkSolutionButton =
                 new JButton("Check Solution");
