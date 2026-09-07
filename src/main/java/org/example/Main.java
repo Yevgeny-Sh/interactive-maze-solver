@@ -27,9 +27,8 @@ public class Main {
 
         MazeSolver solver = new MazeSolver();
 
-        Color pathColor = Color.decode(
-                config.getPathColor()
-        );
+        ConfigPanel configPanel =
+                new ConfigPanel(config);
 
         MazePanel mazePanel =
                 new MazePanel(maze, config);
@@ -69,11 +68,9 @@ public class Main {
 
         window.setLayout(new BorderLayout());
 
+        window.add(configPanel, BorderLayout.NORTH);
         window.add(mazePanel, BorderLayout.CENTER);
-        window.add(
-                checkSolutionButton,
-                BorderLayout.SOUTH
-        );
+        window.add(checkSolutionButton, BorderLayout.SOUTH);
 
         window.pack();
         window.setLocationRelativeTo(null);
