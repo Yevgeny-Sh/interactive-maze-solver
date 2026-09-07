@@ -18,9 +18,27 @@ public class Main {
                 return;
             }
 
-            System.out.println("Maze loaded from local file");
-            System.out.println("Width: " + mazeImage.getWidth());
-            System.out.println("Height: " + mazeImage.getHeight());
+            MazeDecoder decoder = new MazeDecoder();
+
+            boolean[][] maze = decoder.decode(
+                    mazeImage,
+                    20,
+                    20
+            );
+
+            for (int row = 0; row < maze.length; row++) {
+
+                for (int col = 0; col < maze[row].length; col++) {
+
+                    if (maze[row][col]) {
+                        System.out.print(".");
+                    } else {
+                        System.out.print("#");
+                    }
+                }
+
+                System.out.println();
+            }
 
         } catch (IOException e) {
             System.out.println("Failed to load maze image");
