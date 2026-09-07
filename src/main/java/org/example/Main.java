@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Main {
 
+    private static RenderConfig currentConfig;
+
     public static void main(String[] args) {
 
         boolean[][] maze = {
@@ -18,7 +20,7 @@ public class Main {
         };
 
         // Temporary config for development
-        RenderConfig config = new RenderConfig(
+        currentConfig = new RenderConfig(
                 "#BD7D39",
                 "#3F1664",
                 false,
@@ -31,10 +33,10 @@ public class Main {
         MazeDecoder decoder = new MazeDecoder();
 
         ConfigPanel configPanel =
-                new ConfigPanel(config);
+                new ConfigPanel(currentConfig);
 
         MazePanel mazePanel =
-                new MazePanel(maze, config);
+                new MazePanel(maze, currentConfig);
 
         JButton checkSolutionButton =
                 new JButton("Check Solution");
@@ -106,6 +108,49 @@ public class Main {
             worker.execute();
         });
 
+        // REFRESH CONFIG
+        configPanel.getRefreshButton().addActionListener(e -> {
+
+            configPanel.getRefreshButton().setEnabled(false);
+
+            SwingWorker<RenderConfig, Void> worker =
+                    new SwingWorker<>() {
+
+                        @Override
+                        protected RenderConfig doInBackground() throws Exception {
+
+                            return apiService.getRenderConfig();
+                        }
+
+                        @Override
+                        protected void done() {
+
+                            try {
+                                currentConfig = get();
+
+                                configPanel.updateConfig(currentConfig);
+                                mazePanel.applyRenderConfig(currentConfig);
+
+
+                            } catch (Exception ex) {
+
+                                JOptionPane.showMessageDialog(
+                                        window,
+                                        "Failed to refresh config"
+                                );
+
+                            } finally {
+
+                                configPanel
+                                        .getRefreshButton()
+                                        .setEnabled(true);
+                            }
+                        }
+                    };
+
+            worker.execute();
+        });
+
         // CHECK SOLUTION
         checkSolutionButton.addActionListener(e -> {
 
@@ -126,7 +171,7 @@ public class Main {
 
             mazePanel.animatePath(
                     path,
-                    config.getAnimationDelayMs(),
+                    currentConfig.getAnimationDelayMs(),
                     () -> checkSolutionButton.setEnabled(true)
             );
         });

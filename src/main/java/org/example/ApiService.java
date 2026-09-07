@@ -6,7 +6,6 @@ import org.json.JSONObject;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.ByteArrayInputStream;
 
@@ -18,10 +17,17 @@ public class ApiService {
     private static final String MAZE_URL =
             "https://shaitest-production-3066.up.railway.app/fm1/get-maze-image";
 
-    public RenderConfig getRenderConfig() {
+    public RenderConfig getRenderConfig() throws IOException {
 
         HttpResponse<String> response = Unirest.get(CONFIG_URL)
                 .asString();
+
+        if (response.getStatus() < 200 || response.getStatus() >= 300) {
+            throw new IOException(
+                    "Failed to get render config. HTTP status: "
+                            + response.getStatus()
+            );
+        }
 
         JSONObject json = new JSONObject(response.getBody());
 
