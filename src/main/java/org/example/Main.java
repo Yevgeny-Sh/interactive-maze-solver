@@ -30,6 +30,15 @@ public class Main {
         ConfigPanel configPanel =
                 new ConfigPanel(config);
 
+        configPanel.getGetMazeButton().addActionListener(e -> {
+
+            int width = configPanel.getMazeWidth();
+            int height = configPanel.getMazeHeight();
+
+            System.out.println("Width: " + width);
+            System.out.println("Height: " + height);
+        });
+
         MazePanel mazePanel =
                 new MazePanel(maze, config);
 

@@ -102,4 +102,28 @@ public class ConfigPanel extends JPanel {
     public JButton getGetMazeButton() {
         return getMazeButton;
     }
+
+    public int getMazeWidth() {
+        return getValidSize(widthField.getText());
+    }
+
+    public int getMazeHeight() {
+        return getValidSize(heightField.getText());
+    }
+
+    private int getValidSize(String text) {
+
+        try {
+            int value = Integer.parseInt(text);
+
+            if (value >= 5 && value <= 100) {
+                return value;
+            }
+
+        } catch (NumberFormatException e) {
+            // Invalid input will use the default value
+        }
+
+        return 30;
+    }
 }
