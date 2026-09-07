@@ -1,78 +1,59 @@
 package org.example;
 
-import javax.imageio.ImageIO;
-import java.awt.Point;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        try {
-            BufferedImage mazeImage =
-                    ImageIO.read(new File("dev-data/maze-20x20.png"));
+        boolean[][] maze = {
+                {true,  true,  false, false, false},
+                {false, true,  false, true,  true },
+                {false, true,  true,  true,  false},
+                {false, false, false, true,  false},
+                {false, false, false, true,  true }
+        };
 
-            if (mazeImage == null) {
-                System.out.println("Failed to load maze image");
-                return;
-            }
+        MazeSolver solver = new MazeSolver();
 
-            MazeDecoder decoder = new MazeDecoder();
+        MazePanel mazePanel = new MazePanel(maze);
 
-            boolean[][] maze = decoder.decode(
-                    mazeImage,
-                    20,
-                    20
-            );
+        JButton checkSolutionButton =
+                new JButton("Check Solution");
 
-            MazeSolver solver = new MazeSolver();
-
+        checkSolutionButton.addActionListener(e -> {
 
             List<Point> path = solver.findPath(maze);
 
             if (path.isEmpty()) {
-                System.out.println("No solution found");
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "No solution found"
+                );
+
             } else {
-                System.out.println("Solution found");
-                System.out.println("Path length: " + path.size());
 
-                printMazeWithPath(maze, path);
+                mazePanel.setPath(path);
             }
+        });
 
-        } catch (IOException e) {
-            System.out.println("Failed to load maze image");
-            System.out.println(e.getMessage());
-        }
-    }
+        JFrame window =
+                new JFrame("Interactive Maze Solver");
 
-    private static void printMazeWithPath(
-            boolean[][] maze,
-            List<Point> path) {
+        window.setDefaultCloseOperation(
+                WindowConstants.EXIT_ON_CLOSE
+        );
 
-        boolean[][] pathCells =
-                new boolean[maze.length][maze[0].length];
+        window.setLayout(new BorderLayout());
 
-        for (Point point : path) {
-            pathCells[point.y][point.x] = true;
-        }
+        window.add(mazePanel, BorderLayout.CENTER);
+        window.add(checkSolutionButton, BorderLayout.SOUTH);
 
-        for (int row = 0; row < maze.length; row++) {
-
-            for (int col = 0; col < maze[row].length; col++) {
-
-                if (pathCells[row][col]) {
-                    System.out.print("*");
-                } else if (maze[row][col]) {
-                    System.out.print(".");
-                } else {
-                    System.out.print("#");
-                }
-            }
-
-            System.out.println();
-        }
+        window.pack();
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
     }
 }
