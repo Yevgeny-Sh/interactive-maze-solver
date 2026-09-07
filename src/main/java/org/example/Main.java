@@ -1,9 +1,11 @@
 package org.example;
 
 import javax.imageio.ImageIO;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class Main {
 
@@ -18,26 +20,27 @@ public class Main {
                 return;
             }
 
-            MazeDecoder decoder = new MazeDecoder();
+            boolean[][] testMaze = {
+                    {true,  true,  false, false, false},
+                    {false, true,  false, true,  true },
+                    {false, true,  true,  true,  false},
+                    {false, false, false, true,  false},
+                    {false, false, false, true,  true }
+            };
 
-            boolean[][] maze = decoder.decode(
-                    mazeImage,
-                    20,
-                    20
-            );
+            MazeSolver solver = new MazeSolver();
 
-            for (int row = 0; row < maze.length; row++) {
+            List<Point> path = solver.findPath(testMaze);
 
-                for (int col = 0; col < maze[row].length; col++) {
+            if (path.isEmpty()) {
+                System.out.println("No solution found");
+            } else {
+                System.out.println("Solution found");
+                System.out.println("Path length: " + path.size());
 
-                    if (maze[row][col]) {
-                        System.out.print(".");
-                    } else {
-                        System.out.print("#");
-                    }
+                for (Point point : path) {
+                    System.out.println(point);
                 }
-
-                System.out.println();
             }
 
         } catch (IOException e) {
