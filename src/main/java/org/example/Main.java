@@ -20,27 +20,25 @@ public class Main {
                 return;
             }
 
-            boolean[][] testMaze = {
-                    {true,  true,  false, false, false},
-                    {false, true,  false, true,  true },
-                    {false, true,  true,  true,  false},
-                    {false, false, false, true,  false},
-                    {false, false, false, true,  true }
-            };
+            MazeDecoder decoder = new MazeDecoder();
+
+            boolean[][] maze = decoder.decode(
+                    mazeImage,
+                    20,
+                    20
+            );
 
             MazeSolver solver = new MazeSolver();
 
-            List<Point> path = solver.findPath(testMaze);
+            List<Point> path = solver.findPath(maze);
 
             if (path.isEmpty()) {
                 System.out.println("No solution found");
             } else {
                 System.out.println("Solution found");
                 System.out.println("Path length: " + path.size());
-
-                for (Point point : path) {
-                    System.out.println(point);
-                }
+                System.out.println("Start: " + path.get(0));
+                System.out.println("End: " + path.get(path.size() - 1));
             }
 
         } catch (IOException e) {
