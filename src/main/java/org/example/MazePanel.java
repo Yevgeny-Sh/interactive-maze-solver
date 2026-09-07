@@ -6,8 +6,7 @@ import java.util.List;
 
 public class MazePanel extends JPanel {
 
-    private final boolean[][] maze;
-
+    private boolean[][] maze;
     private Color wallColor;
     private Color pathColor;
     private Color gridColor;
@@ -154,5 +153,24 @@ public class MazePanel extends JPanel {
                     height
             );
         }
+    }
+
+    public boolean[][] getMaze() {
+        return maze;
+    }
+
+    public void setMaze(boolean[][] maze) {
+        this.maze = maze;
+
+        path = null;
+        currentPathIndex = -1;
+
+        int width = maze[0].length * cellSize;
+        int height = maze.length * cellSize;
+
+        setPreferredSize(new Dimension(width, height));
+
+        revalidate();
+        repaint();
     }
 }
