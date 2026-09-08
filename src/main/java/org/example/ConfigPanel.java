@@ -106,8 +106,7 @@ public class ConfigPanel extends JPanel {
     private int getValidSize(String text) {
 
         try {
-            int value = Integer.parseInt(text);
-
+            int value = Integer.parseInt(text.trim());
             if (value >= 5 && value <= 100) {
                 return value;
             }
