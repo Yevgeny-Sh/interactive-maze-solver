@@ -2,11 +2,11 @@ package org.example;
 
 public class RenderConfig {
 
-    private String wallCellColor;
-    private String pathColor;
-    private boolean drawGrid;
-    private String gridColor;
-    private int animationDelayMs;
+    private final String wallCellColor;
+    private final String pathColor;
+    private final boolean drawGrid;
+    private final String gridColor;
+    private final int animationDelayMs;
 
     public RenderConfig(String wallCellColor,
                         String pathColor,

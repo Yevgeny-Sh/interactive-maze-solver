@@ -87,14 +87,6 @@ public class ConfigPanel extends JPanel {
         );
     }
 
-    public JTextField getWidthField() {
-        return widthField;
-    }
-
-    public JTextField getHeightField() {
-        return heightField;
-    }
-
     public JButton getRefreshButton() {
         return refreshButton;
     }
