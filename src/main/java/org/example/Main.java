@@ -11,8 +11,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-
-
         MazeSolver solver = new MazeSolver();
         ApiService apiService = new ApiService();
         MazeDecoder decoder = new MazeDecoder();
@@ -60,6 +58,7 @@ public class Main {
             int height = configPanel.getMazeHeight();
 
             configPanel.getGetMazeButton().setEnabled(false);
+            checkSolutionButton.setEnabled(false);
 
             SwingWorker<boolean[][], Void> worker =
                     new SwingWorker<>() {
@@ -84,7 +83,6 @@ public class Main {
                                 boolean[][] newMaze = get();
 
                                 mazePanel.setMaze(newMaze);
-                                checkSolutionButton.setEnabled(true);
 
                                 window.pack();
                                 window.setLocationRelativeTo(null);
@@ -101,6 +99,10 @@ public class Main {
                                 configPanel
                                         .getGetMazeButton()
                                         .setEnabled(true);
+
+                                checkSolutionButton.setEnabled(
+                                        mazePanel.getMaze() != null
+                                );
                             }
                         }
                     };
@@ -130,7 +132,6 @@ public class Main {
 
                                 configPanel.updateConfig(currentConfig);
                                 mazePanel.applyRenderConfig(currentConfig);
-
 
                             } catch (Exception ex) {
 
