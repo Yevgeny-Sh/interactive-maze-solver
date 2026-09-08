@@ -17,15 +17,9 @@ public class MazePanel extends JPanel {
 
     private final int cellSize = 25;
 
-    public MazePanel(boolean[][] maze, RenderConfig config) {
-        this.maze = maze;
+    public MazePanel(RenderConfig config) {
 
         applyRenderConfig(config);
-
-        int width = maze[0].length * cellSize;
-        int height = maze.length * cellSize;
-
-        setPreferredSize(new Dimension(width, height));
     }
 
     public void applyRenderConfig(RenderConfig config) {
@@ -75,6 +69,10 @@ public class MazePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        if (maze == null) {
+            return;
+        }
 
         drawMaze(g);
         drawPath(g);
@@ -168,7 +166,9 @@ public class MazePanel extends JPanel {
         int width = maze[0].length * cellSize;
         int height = maze.length * cellSize;
 
-        setPreferredSize(new Dimension(width, height));
+        setPreferredSize(
+                new Dimension(width, height)
+        );
 
         revalidate();
         repaint();

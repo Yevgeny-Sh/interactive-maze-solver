@@ -11,35 +11,34 @@ public class Main {
 
     public static void main(String[] args) {
 
-        boolean[][] maze = {
-                {true,  true,  false, false, false},
-                {false, true,  false, true,  true },
-                {false, true,  true,  true,  false},
-                {false, false, false, true,  false},
-                {false, false, false, true,  true }
-        };
 
-        // Temporary config for development
-        currentConfig = new RenderConfig(
-                "#BD7D39",
-                "#3F1664",
-                false,
-                "#EB4DDB",
-                258
-        );
 
         MazeSolver solver = new MazeSolver();
         ApiService apiService = new ApiService();
         MazeDecoder decoder = new MazeDecoder();
 
+        try {
+            currentConfig = apiService.getRenderConfig();
+        } catch (Exception ex) {
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Failed to load render config"
+            );
+
+            return;
+        }
+
         ConfigPanel configPanel =
                 new ConfigPanel(currentConfig);
 
         MazePanel mazePanel =
-                new MazePanel(maze, currentConfig);
+                new MazePanel(currentConfig);
 
         JButton checkSolutionButton =
                 new JButton("Check Solution");
+
+        checkSolutionButton.setEnabled(false);
 
         JFrame window =
                 new JFrame("Interactive Maze Solver");
@@ -85,6 +84,7 @@ public class Main {
                                 boolean[][] newMaze = get();
 
                                 mazePanel.setMaze(newMaze);
+                                checkSolutionButton.setEnabled(true);
 
                                 window.pack();
                                 window.setLocationRelativeTo(null);
