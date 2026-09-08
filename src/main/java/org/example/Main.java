@@ -168,11 +168,15 @@ public class Main {
             }
 
             checkSolutionButton.setEnabled(false);
+            configPanel.getGetMazeButton().setEnabled(false);
 
             mazePanel.animatePath(
                     path,
                     currentConfig.getAnimationDelayMs(),
-                    () -> checkSolutionButton.setEnabled(true)
+                    () -> {
+                        checkSolutionButton.setEnabled(true);
+                        configPanel.getGetMazeButton().setEnabled(true);
+                    }
             );
         });
 
