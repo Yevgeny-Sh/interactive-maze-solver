@@ -96,11 +96,15 @@ public class ConfigPanel extends JPanel {
     }
 
     public int getMazeWidth() {
-        return getValidSize(widthField.getText());
+        int width = getValidSize(widthField.getText());
+        widthField.setText(String.valueOf(width));
+        return width;
     }
 
     public int getMazeHeight() {
-        return getValidSize(heightField.getText());
+        int height = getValidSize(heightField.getText());
+        heightField.setText(String.valueOf(height));
+        return height;
     }
 
     private int getValidSize(String text) {
